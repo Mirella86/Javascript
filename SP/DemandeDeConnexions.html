@@ -1,0 +1,500 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<script type="text/javascript" src="/service/dsi/Style%20Library/jquery-1.12.0.min.js"></script>
+<script type="text/javascript" src="/service/dsi/Style%20Library/knockout-3.4.0.js"></script>
+<script type="text/javascript" src="/service/dsi/Style%20Library/knockout.validation.min.js"></script>
+<script type="text/javascript" src="/service/dsi/Style%20Library/demandeDeConnexionsScript.js"></script>
+<script type="text/javascript" src="/service/dsi/Style%20Library/jquery-ui.js"></script>
+<script type="text/javascript" src="/service/dsi/Style%20Library/jquery.SPServices-2014.02.min.js"></script>
+<link rel="stylesheet" href="/service/dsi/Style%20Library/jquery-ui.css" />
+<link rel="stylesheet" href="/service/dsi/Style%20Library/Styles.css" />
+<!--for people picker -->
+<script type="text/javascript" src="/service/dsi/_layouts/15/1036/strings.js"></script>
+<!--for french 1036, for english 1033 -->
+<script type="text/javascript" src="/service/dsi/_layouts/15/clientforms.js">  </script>
+<script type="text/javascript" src="/service/dsi/_layouts/15/clientpeoplepicker.js"></script>
+<script type="text/javascript" src="/service/dsi/_layouts/15/autofill.js"></script>
+<script type="text/javascript" src="/service/dsi/_layouts/15/clienttemplates.js"></script>
+<!--<script type="text/javascript" src="../Scripts/jquery-1.12.0.min.js"></script>
+    <script type="text/javascript" src="../Scripts/knockout-3.4.0.js"></script>
+    <script type="text/javascript" src="../Scripts/knockout.validation.min.js"></script>
+    <script type="text/javascript" src="../Scripts/demandeDeConnexionsScript.js"></script>
+    <script type="text/javascript" src="../Scripts/jquery-ui.js"></script>
+    <link href="../Styles/jquery-ui.css" rel="stylesheet" type="text/css" />
+    <link href="../Styles/Styles.css" rel="stylesheet" type="text/css" />-->
+<div id="form-container">
+    <div id="left-content">
+        <img src="/blabla/logo.png" alt="logo" />
+    </div>
+    <div id="right-content">
+        <table class="form">
+            <thead>
+                <tr>
+                    <th colspan="2" class="title">
+                        Demande de connexion réseau
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="2" class="legend">
+                        Création ou modification?
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div id="requestDiv">
+                            <input type="radio" id="creationAccount" name="requestGroup" value="creationAccount"
+                                data-bind="checked: requestRadio" /><label for="creationAccount">
+                                    Creation de compte utilisateur
+                                </label>
+                            <br />
+                            <input type="radio" id="modificationAccount" name="requestGroup" value="modificationAccount"
+                                data-bind="checked: requestRadio" /><label for="modificationAccount">
+                                    Modification de compte utilisateur
+                                </label>
+                            <br />
+                            <input type="radio" id="creationEmail" name="requestGroup" value="creationEmail"
+                                data-bind="checked: requestRadio" /><label for="creationEmail">
+                                    Creation addresse e-mail uniquement
+                                </label>
+                            <br />
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="legend">
+                        Identification
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 50%">
+                        <label class="label">
+                            Nom :</label>
+                        <br />
+                        <!--      <input type="text" data-bind='value: name, valueUpdate: "afterkeydown"' />
+                        <span data-bind='css: { error: name.hasError }, visible: name.hasError, text: name.validationMessage'>
+                        </span>-->
+                        <input type="text" data-bind="value: name" />
+                    </td>
+                    <td style="width: 50%">
+                        <label class="label">
+                            Prénom :</label>
+                        <br />
+                        <input type="text" data-bind='value: surname, valueUpdate:"afterkeydown"' />
+                        <span data-bind='css: { error: surname.hasError }, visible: surname.hasError, text: surname.validationMessage'>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label class="label">
+                            Localisation géographique :</label><br />
+                        <input type="radio" id="radioAgence" name="localisationGroup" value="agence" data-bind="checked: localisationRadio" /><label
+                            for="radioAgence">Agence</label>
+                        <br />
+                        <input type="radio" id="radioSiege" name="localisationGroup" value="siege" data-bind="checked: localisationRadio" /><label
+                            for="radioSiege">Siege</label>
+                        <br />
+                        <select data-bind="visible: IsLocalisationAgence, options: agences, optionsText: 'optionName', optionsValue: 'optionId',
+                       value: selectedAgence,  optionsCaption: '---'">
+                        </select>
+                        <select data-bind="visible: IsLocalisationSiege,options: sieges, optionsText: 'optionName', optionsValue: 'optionId',
+                        value: selectedSiege,  optionsCaption: '---'">
+                        </select>
+                    </td>
+                    <td>
+                        <label class="label">
+                            Profil utilisateur type:</label><br />
+                        <select data-bind=" options: userTypeProfil, optionsText: 'optionName' , optionsValue: 'optionId' ,
+                                value: selectedUserTypeProfil, optionsCaption: '---' ">
+                        </select>
+                        <br />
+                        <input type="text" data-bind="visible: IsOtherUserProfileSelected, value: otherUserProfile" />
+                        <label class="label">
+                            Fonction</label><br />
+                        <select data-bind="options: fonctions, optionsText: 'optionName', optionsValue: 'optionId', value: selectedFonction,  optionsCaption: '---'">
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div data-bind="visible: IsAgenceFromAfrica">
+                            <label class="label">
+                                Pour AFRIQUE, nom d'ouverture de session générique si besoin : (Ex : atelier1.osipog)</label>
+                            <br />
+                            <input type="text" data-bind="value: genericSessionAfrica" />
+                        </div>
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label class="label">
+                            Adresse e-mail?</label><br />
+                        <input type="radio" name="emailGroup" id="emailOui" value="Oui" data-bind="checked: emailRadio" /><label
+                            for="emailOui">Oui</label>
+                        <input type="radio" name="emailGroup" id="emailNon" value="Non" data-bind="checked: emailRadio" /><label
+                            for="emailNon">Non</label>
+                    </td>
+                    <td>
+                        <div data-bind="visible: IsEmailRadioSelected">
+                            <label class="label">
+                                Domaine de l'adresse e-mail:</label><br />
+                            <select data-bind="options: emailDomains, optionsText: 'optionName', optionsValue: 'optionId', value: selectedDomain">
+                            </select>
+                            <br />
+                            <label class="label">
+                                Type adresse e-mail:</label><br />
+                            <input type="radio" id="emailNominative" name="typeEmailGroup" value="nominative"
+                                data-bind="checked: typeEmailRadio" /><label for="emailNominative">Nominative</label>
+                            <input type="radio" id="emailGenerique" name="typeEmailGroup" value="generique" data-bind="checked: typeEmailRadio" /><label
+                                for="emailGenerique">Generique</label>
+                            <br />
+                            <div data-bind="visible: IsGenericEmailSelected">
+                                Adresse e-mail (Ex: prenom.nom@ortec.fr)
+                                <input type="text" data-bind="value: emailAdress" />
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="legend">
+                        <label class="label">
+                            Validation</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label class="label">
+                            Adresse e-mail du responsable</label>
+                    </td>
+                    <td>
+                        <div id="peoplePickerDiv">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label class="label">
+                            Numero de telephone du responsable</label>
+                    </td>
+                    <td>
+                        <input type="text" data-bind="value: responsableTelephone" />
+                    </td>
+                </tr>
+                <tr data-bind="ifnot: IsModificationAccountRequest">
+                    <td colspan="2" class="legend">
+                        <label class="label">
+                            Type de contrat</label>
+                    </td>
+                </tr>
+                <tr data-bind="ifnot: IsModificationAccountRequest">
+                    <td>
+                        <br />
+                        <input type="radio" id="contractCDI" name="contractType" value="CDI" data-bind="checked: contractTypeRadio" /><label
+                            for="contractCDI">CDI</label><br />
+                        <input type="radio" id="contractCDD" name="contractType" value="CDD" data-bind="checked: contractTypeRadio" /><label
+                            for="contractCDD">CDD</label><br />
+                        <input type="radio" id="contractInterimaire" name="contractType" value="Interimaire"
+                            data-bind="checked: contractTypeRadio" /><label for="contractInterimaire">Interimaire</label><br />
+                        <input type="radio" id="contractStagiaire" name="contractType" value="Stagiaire"
+                            data-bind="checked: contractTypeRadio" /><label for="contractStagiaire">Stagiaire</label><br />
+                        <input type="radio" id="contractPrestataire" name="contractType" value="Prestataire"
+                            data-bind="checked: contractTypeRadio" /><label for="contractPrestataire">Prestataire</label>
+                    </td>
+                    <td>
+                        Date arrivee
+                        <br />
+                        <input type="text" id="arrivalDate" data-bind="value: arrivalDate" readonly="readonly" />
+                        <br />
+                        <div data-bind="visible: IsNotCDISelected">
+                            Date de fin de contrat
+                            <br />
+                            <input type="text" id="contractEndDate" data-bind="value: contractEndDate" readonly="readonly" />
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="legend">
+                        <label class="label">
+                            Statut</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="radio" id="radioCadre" name="statusGroup" value="CADRE" data-bind="checked: statusRadio" /><label
+                            for="radioCadre">CADRE</label><br />
+                        <input type="radio" id="radioEtam" name="statusGroup" value="ETAM" data-bind="checked: statusRadio" /><label
+                            for="radioEtam">ETAM</label><br />
+                        <input type="radio" id="radioOuvrier" name="statusGroup" value="OUVRIER" data-bind="checked: statusRadio" /><label
+                            for="radioOuvrier">OUVRIER</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="legend">
+                        <label class="label">
+                            Access Internet
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <input type="radio" id="radioStandard" name="internetAccesGroup" value="standard"
+                            data-bind="checked: internetAccesRadio" /><label for="radioStandard">Standard</label>
+                        <br />
+                        <input type="radio" id="radioUnrestricted" name="internetAccesGroup" value="unrestricted"
+                            data-bind="checked: internetAccesRadio" /><label for="radioUnrestricted">Unrestricted</label>
+                        <br />
+                        <input type="radio" id="radioNoAccess" name="internetAccesGroup" value="noaccess"
+                            data-bind="checked: internetAccesRadio" /><label for="radioNoAccess">No access</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="legend">
+                        <label class="label">
+                            Access au dossiers reseaux</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <label class="label">
+                            Pour remplir les champs, merci de préciser le lecteur et le nom du dossier (un dossier
+                            par ligne). Ex : F:\AGENCE</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Dossier
+                    </td>
+                    <td>
+                        Mode
+                    </td>
+                </tr>
+                <!-- ko foreach: folders-->
+                <tr>
+                    <td>
+                        <input type="text" data-bind="value: path" />
+                    </td>
+                    <td>
+                        <input type="radio" value="read" data-bind="checked: modificationAccessRadio, attr : {id: idRead}" /><label
+                            data-bind="attr : {for: idRead}">Lecture uniquement</label>
+                        <input type="radio" value="modification" data-bind="checked: modificationAccessRadio, attr : {id: idModification}" /><label
+                            data-bind="attr : {for: idModification}">Modification</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="#" data-bind="click: $root.removeFolder">Supprimer</a>
+                    </td>
+                </tr>
+                <!-- /ko -->
+                <tr>
+                    <td>
+                        <button data-bind="click: addFolder">
+                            Insérer un élément
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="legend">
+                        <label class="label">
+                            Application Citrix</label>
+                    </td>
+                </tr>
+                <!-- ko foreach: applicationsCitrix -->
+                <tr>
+                    <td>
+                        <select data-bind="options: applications, optionsText: 'optionName', optionsValue: 'optionId',
+                        value: selectedApplication,  optionsCaption: '---'">
+                        </select>
+                    </td>
+                    <td>
+                        <label>
+                            Activation compte Sioux, merci de vous adresser à : serviceappli@ortec.fr - Tel
+                            IP : 10001382</label>
+                    </td>
+                </tr>
+                <tr data-bind="visible: IsVisioDisSelected">
+                    <td>
+                        <label>
+                            Application Visio DIS</label><br />
+                        <select data-bind="options: applicationsVisio, optionsText: 'optionName', optionsValue: 'optionId',
+                        value: selectedApplicationVisioDis,  optionsCaption: '---'">
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <a href="#" data-bind="click: $root.removeApplicationCitrix">Supprimer</a>
+                    </td>
+                </tr>
+                <!-- /ko -->
+                <tr>
+                    <td>
+                        <button data-bind="click: addApplication">
+                            Insérer un élément
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="legend">
+                        <label class="label">
+                            Documentation Citrix</label>
+                    </td>
+                </tr>
+                <!--ko foreach: documentationCitrix -->
+                <tr>
+                    <td>
+                        <select data-bind="options: documentations, optionsText: 'optionName', optionsValue: 'optionId',
+                        value: selectedDocumentation,  optionsCaption: '---'">
+                        </select>
+                    </td>
+                    <td>
+                        <input type="radio" value="read" data-bind="checked: modificationAccessRadio, attr : {id: idRead}" /><label
+                            data-bind="attr : {for: idRead}">Lecture uniquement</label>
+                        <input type="radio" value="modification" data-bind="checked: modificationAccessRadio, , attr : {id: idModification}" /><label
+                            data-bind="attr : {for: idModification}">Modification</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <a href="#" data-bind="click: $root.removeDocumentationCitrix">Supprimer</a>
+                    </td>
+                </tr>
+                <!-- /ko -->
+                <tr>
+                    <td>
+                        <button data-bind="click: addDocumentation">
+                            Insérer un élément
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="legend">
+                        <label class="label">
+                            Autres applications</label>
+                    </td>
+                </tr>
+                <!-- ko foreach: otherApplications -->
+                <tr>
+                    <td>
+                        <input type="text" data-bind="value: otherApplication">
+                    </td>
+                    <td>
+                        <a href="#" data-bind="click: $root.removeOtherApplication">Supprimer</a>
+                    </td>
+                </tr>
+                <!-- /ko -->
+                <tr>
+                    <td colspan="2">
+                        <button data-bind="click: addOtherApplication">
+                            Insérer un élément
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="legend" colspan="2">
+                        <label class="label">
+                            Imprimantes</label>
+                    </td>
+                </tr>
+                <!-- ko foreach: printers -->
+                <tr>
+                    <td>
+                        <input type="text" data-bind="value: printer">
+                    </td>
+                    <td>
+                        <a href="#" data-bind="click: $root.removePrinter">Supprimer</a>
+                    </td>
+                </tr>
+                <!-- /ko -->
+                <tr>
+                    <td>
+                        <button data-bind="click: addPrinter">
+                            Insérer un élément
+                        </button>
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="legend">
+                        Fichiers
+                    </td>
+                </tr>
+                <!-- ko foreach: files-->
+                <tr data-bind="if: $root.IsListItemCreated">
+                    <td>
+                        <a data-bind="text: fileName, attr: { href: filePath, title: fileName }">
+                            <!--    <label data-bind="text: fileName">
+                            </label>-->
+                        </a>
+                    </td>
+                    <td>
+                        <a href="#" data-bind="click: $root.removeFileFromServer">Supprimer</a>
+                    </td>
+                </tr>
+                <tr data-bind="ifnot: $root.IsListItemCreated">
+                    <td>
+                        <label data-bind="text: fileName">
+                        </label>
+                    </td>
+                    <td>
+                        <a href="#" data-bind="click: $root.removeFileFromClient">Supprimer</a>
+                    </td>
+                </tr>
+                <!-- /ko -->
+                <tr>
+                    <td colspan="2" id="fileUploadArea">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <div id="fileUploadDiv">
+                            <input id="fileUploadControl" type="file" data-bind="event : {change: addFile($element)}" />
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="legend">
+                        <label class="label">
+                            Commentaires</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <textarea data-bind="value: comments" rows="5"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="legend" colspan="2">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <button id="send" data-bind="visible: IsNotSent, click: function(){ SendRequest($element) }">
+                            Envoyer
+                        </button>
+                        <button id="treat" data-bind="visible: IsInAttendance, click:function(){ SendRequest($element) }">
+                            Demande Traitée</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <button id="approve" data-bind="visible: IsWaitingForApprobation, click: function(){ SendRequest($element)}">
+                            Approuver</button>
+                        <button id="reject" data-bind="visible: IsWaitingForApprobation, click: function(){ SendRequest($element)}">
+                            Rejeter</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<br />
+<br />
+<br />
+<br />
